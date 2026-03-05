@@ -23,6 +23,30 @@ Architecture:
 
 Customer → WhatsApp → Webhook → Java Bot → AI → Reply
 
+
+docker compose up
+
+
+Server runs on:
+
+
+http://localhost:8080
+
+
+Webhook endpoint:
+
+
+POST /webhook/whatsapp
+
+
+Test:
+
+
+curl -X POST http://localhost:8080/webhook/whatsapp
+
+-H "Content-Type: application/json"
+-d '{"from":"+351999999999","message":"Do you cut grass?"}'
+
 ## Run locally
 
 1. clone repo
