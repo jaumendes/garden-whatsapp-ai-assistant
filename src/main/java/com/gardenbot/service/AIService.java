@@ -13,3 +13,10 @@ public class AIService {
     }
 
 }
+@Service
+public class AIService {
+
+    @Value("${OPENAI_API_KEY}")
+    private String apiKey;
+
+}
