@@ -3,10 +3,7 @@ package com.gardenbot.service;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Value;
 
-import com.openai.client.OpenAIClient;
-import com.openai.client.okhttp.OpenAIOkHttpClient;
-import com.openai.models.Response;
-import com.openai.models.ResponseCreateParams;
+import okhttp3.*;
 
 @Service
 public class AIService {
@@ -14,19 +11,39 @@ public class AIService {
     @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
+    private final OkHttpClient client = new OkHttpClient();
+
     public String generateReply(String message) {
 
-        OpenAIClient client = OpenAIOkHttpClient.builder()
-                .apiKey(apiKey)
-                .build();
+        try {
 
-        Response response = client.responses().create(
-                ResponseCreateParams.builder()
-                        .model("gpt-4o-mini")
-                        .input(message)
-                        .build()
-        );
+            String json = """
+            {
+              "model": "gpt-4o-mini",
+              "messages": [
+                {"role": "user", "content": "%s"}
+              ]
+            }
+            """.formatted(message);
 
-        return response.outputText();
+            RequestBody body = RequestBody.create(
+                    json,
+                    MediaType.parse("application/json")
+            );
+
+            Request request = new Request.Builder()
+                    .url("https://api.openai.com/v1/chat/completions")
+                    .addHeader("Authorization", "Bearer " + apiKey)
+                    .addHeader("Content-Type", "application/json")
+                    .post(body)
+                    .build();
+
+            Response response = client.newCall(request).execute();
+
+            return response.body().string();
+
+        } catch (Exception e) {
+            return "Error contacting AI: " + e.getMessage();
+        }
     }
 }
