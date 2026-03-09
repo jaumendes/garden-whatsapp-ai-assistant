@@ -9,6 +9,7 @@ import com.openai.client.okhttp.OpenAIOkHttpClient;
 import com.openai.models.ChatCompletion;
 import com.openai.models.ChatCompletionCreateParams;
 import com.openai.models.ChatCompletionUserMessageParam;
+import com.openai.models.ChatCompletionUserMessageParam.Content;
 
 @Service
 public class AIService {
@@ -27,7 +28,7 @@ public class AIService {
                         .model("gpt-4o-mini")
                         .addMessage(
                                 ChatCompletionUserMessageParam.builder()
-                                        .content(message)
+                                        .content(Content.ofText(message))
                                         .build()
                         )
                         .build()
