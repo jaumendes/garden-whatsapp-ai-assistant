@@ -5,11 +5,8 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
-
-import com.openai.models.ChatCompletion;
-import com.openai.models.ChatCompletionCreateParams;
-import com.openai.models.ChatCompletionUserMessageParam;
-import com.openai.models.ChatCompletionUserMessageParam.Content;
+import com.openai.models.Response;
+import com.openai.models.ResponseCreateParams;
 
 @Service
 public class AIService {
@@ -23,18 +20,13 @@ public class AIService {
                 .apiKey(apiKey)
                 .build();
 
-        ChatCompletion completion = client.chat().completions().create(
-                ChatCompletionCreateParams.builder()
+        Response response = client.responses().create(
+                ResponseCreateParams.builder()
                         .model("gpt-4o-mini")
-                        .addMessage(
-                                ChatCompletionUserMessageParam.builder()
-                                        .content(Content.ofText(message))
-                                        .build()
-                        )
+                        .input(message)
                         .build()
         );
 
-        return completion.choices().get(0).message().content().get();
-
+        return response.outputText();
     }
 }
