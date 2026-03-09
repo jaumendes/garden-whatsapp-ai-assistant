@@ -1,0 +1,15 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+
+<modelVersion>4.0.0</modelVersion>
+
+<groupId>com.gardenbot</groupId>
+<artifactId>garden-bot</artifactId>
+<version>1.0</version>
+
+<packaging>jar</packaging>
+
+<properties>
+<java.version>21</java.version>
+</properties>
+
+</project>
