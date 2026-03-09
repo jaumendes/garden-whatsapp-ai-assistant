@@ -9,14 +9,6 @@ public class AIService {
     @Value("${OPENAI_API_KEY}")
     private String apiKey;
 
-}
-
-@Service
-public class AIService {
-
-    @Value("${OPENAI_API_KEY}")
-    private String apiKey;
-
     public String generateReply(String message){
 
         OpenAI client = new OpenAI(apiKey);
