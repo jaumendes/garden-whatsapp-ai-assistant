@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.openai.client.OpenAIClient;
 import com.openai.client.okhttp.OpenAIOkHttpClient;
+
 import com.openai.models.ChatCompletion;
 import com.openai.models.ChatCompletionCreateParams;
+import com.openai.models.ChatCompletionUserMessageParam;
 
 @Service
 public class AIService {
@@ -23,12 +25,15 @@ public class AIService {
         ChatCompletion completion = client.chat().completions().create(
                 ChatCompletionCreateParams.builder()
                         .model("gpt-4o-mini")
-                        .addUserMessage(message)
+                        .addMessage(
+                                ChatCompletionUserMessageParam.builder()
+                                        .content(message)
+                                        .build()
+                        )
                         .build()
         );
 
         return completion.choices().get(0).message().content().get();
 
     }
-
 }
