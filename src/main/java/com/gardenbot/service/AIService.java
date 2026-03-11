@@ -18,13 +18,20 @@ public class AIService {
         try {
 
             String json = """
-            {
-              "model": "gpt-4o-mini",
-              "messages": [
-                {"role": "user", "content": "%s"}
-              ]
-            }
-            """.formatted(message);
+                {
+                  "model": "gpt-4o-mini",
+                  "messages": [
+                    {
+                      "role": "system",
+                      "content": "You are an assistant for a gardening company called Plantox (plantox.pt). The company provides lawn mowing, hedge trimming, garden cleaning and maintenance services. Help customers understand services and request quotes."
+                    },
+                    {
+                      "role": "user",
+                      "content": "%s"
+                    }
+                  ]
+                }
+                """.formatted(message);
 
             RequestBody body = RequestBody.create(
                     json,
